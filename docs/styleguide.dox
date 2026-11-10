@@ -1,0 +1,39 @@
+/**
+ * @page styleguide Style-Guide
+ *
+ * # Naming Conventions
+ *
+ * When making changes to the library, the naming conventions should be
+ * followed. The most important naming conventions are listed below:
+ * 
+ * - Member variables are given the prefix "m_" and are written in "camelCase,"
+ * regardless of whether the variable is "public," "protected," or "private".
+ * @code 
+ * uint8_t m_camelCase = 0;
+ * @endcode
+ *
+ * - Global and local variables are written in "camelCase".
+ * @code
+ * uint16_t firstDevice = 0;
+ * @endcode
+ *
+ * - Functions are written in "camelCase." They should begin with a verb
+ * describing the function, followed by the object upon which the function
+ * operates.
+ * @code
+ * void sendByte(uint8_t);
+ * @endcode
+ *
+ * - Contants, constexpr and #define are written in "SCREAMING_SNAKE_CASE"
+ * @code
+ * static constexpr uint16_t TIME_SLOT
+ * @endcode
+ *
+ * - Classes, Enum-Names and Enum-Values are written in "PascalCase"
+ * @code
+ * enum FamilyCode : uint8_t {
+ *      Ds18B20     = 0x28,
+ *      Ds2438      = 0x26
+ * };
+ * @endcode
+ */

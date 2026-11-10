@@ -1,0 +1,84 @@
+/**
+ * @page architecture Architecture
+ *
+ * # Description of the layer model
+ *
+ * The architecture and the layered model are described below. The 1-Wire
+ * interface consists of three layers:
+ * 
+ * -# OW::Hal is the hardware abstraction layer that decouples the library from
+ *    the physical hardware. It is the driver module that must be adapted when
+ *    porting the library to a different MCU platform.
+ * -# OW::Bus – Provides the specific communication interface for the 1-Wire bus.
+ *    It handles timing and low-level communication, thereby managing the
+ *    transmission and reading of bit and byte values.
+ * -# The device classes include OW::Device and the specific device classes.
+ *    OW::Device contains general commands supported by all or multiple devices,
+ *    while the specific device classes provide functions for a specific device
+ *    (e.g., a DS18B20).
+ *
+ * ## Use of the individual layers or classes
+ *
+ * The individual classes build upon one another and must be configured
+ * correctly in the proper sequence. This structure also has the advantage that
+ * multiple buses can be operated on a single microcontroller. The maximum
+ * number naturally depends on the processing power and the available inputs
+ * and outputs.
+ * 
+ * ### Hal object
+ *
+ * An OW::Hal object must be created as the initial, lowest-level layer to
+ * enable hardware control. It essentially acts as the driver for accessing
+ * specific hardware. Please refer to the specific HAL class for further
+ * details, as configuration may vary between hardware platforms.
+ *
+ * Here is an example of the HAL for an ATmega328P:
+ * @code
+ * OW::Hal myHal(&DDRD, &PIND, &PORTD, PORTD7);
+ * @endcode
+ * 
+ * ### Bus object
+ *
+ * The OW::Bus class builds upon the OW::Hal class, utilizing the HAL as the
+ * interface to the physical hardware and bus. It employs the HAL class's
+ * functions to access specific hardware pins, timers, and registers. To do
+ * this, the HAL object must be passed to the bus class so that the bus class
+ * knows exactly which hardware interface it should use. In turn, the Bus
+ * class provides fundamental communication functions to the device classes.
+ *
+ * This class can also be used to implement custom low-level communication with
+ * 1-Wire devices, as it provides essential functions such as reset operations
+ * and the transmission and reception of bits and bytes.
+ *
+ * After initializing the HAL, the bus instance can be created, as shown in the
+ * following example:
+ * @code
+ * OW::Bus myInterface(myHal);
+ * @endcode
+ *
+ * ### Device objects
+ *
+ * The device classes are created as the final layer. These classes are passed
+ * the bus interface so that they know which bus interface to use to
+ * communicate with the physical devices. They then provide device-specific
+ * functions and data structures that can be used and evaluated within the
+ * code.
+ *
+ * @note The specific device classes are optional, depending on which device is
+ * to be used. However, the OW::Device class must always be instantiated, as it
+ * provides general functions for all specific device classes.
+ *
+ * As an example, the required devices can be initialized as follows:
+ * @code
+ * OW::Device myDevice(myInterface);    // necessary
+ * OW::Ds18B20 myDs18B20(myInterface);  // optional
+ * OW::Ds2438 myDs2438(myInterface);    // optional
+ * @endcode
+ *
+ * ## Helper functions
+ *
+ * In addition to the 1-Wire core, further functions are provided. These
+ * include functions for converting sensor data, as well as general-purpose
+ * functions, given that 1-Wire sensors are frequently used in smart home
+ * applications.
+ */

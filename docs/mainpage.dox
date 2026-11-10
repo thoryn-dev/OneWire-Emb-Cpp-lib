@@ -1,0 +1,51 @@
+/**
+ * @mainpage Main Page
+ *
+ * # C++ 1-Wire library for embedded systems
+ *
+ * This is yet another 1-Wire library among many. :) Born out of a
+ * private project, it has been continuously expanded with new features. The
+ * library is written in modern C++ and features a modular design. It includes
+ * its own hardware abstraction layer to make porting to other platforms as
+ * easy as possible. Further functions and improvements will follow.
+ *
+ * An overview of the features:
+ *
+ * - Hardware abstraction for improved portability
+ * - Provision of a 1-Wire interface
+ * - Provision of device-independent functions
+ * - Provision of device-specific functions
+ * - Helper functions for various calculations and tasks
+ * 
+ * Currently supported devices:
+ * 
+ * - DS18B20 temperature sensor
+ * - DS2438 Battery monitoring
+ * 
+ * # Handling
+ * 
+ * Furthermore, I aim to document the library as comprehensively and clearly as
+ * possible, so that even beginners can work with it without frustration.
+ *
+ * All classes are documented for the end user. A small example is provided to
+ * get started, demonstrating how to simply read data from a DS18B20.
+ * 
+ * # Participation
+ * 
+ * Anyone wishing to contribute to the library is very welcome. There are a few
+ * guidelines to ensure a consistent overall appearance; a page dedicated to
+ * the @ref styleguide is available for this purpose.
+ * 
+ * # Further interesting reading
+ * 
+ * - @ref architecture - Explanation of the library's structure
+ * - @ref busphysics - Explanation and notes on bus physics
+ * - @ref styleguide - Style guide standards for changes to the library
+ * 
+ * @todo Switch the conversion process to non-blocking mode. To do this, create
+ * a state variable that stores the steps and enables the corresponding
+ * functions, eliminating the need for repeated polling in `main.cpp`.
+ * @todo Move copy scratch and write scratch from specific device classes to
+ * general device classes
+ * 
+ */

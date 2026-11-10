@@ -1,0 +1,81 @@
+/**
+* @page busphysics Bus-Physics
+* 
+* # 1-Wire Timing
+*
+* ## Datasheet Values
+*
+* All timing parameters have been selected in accordance with Maxim (Dallas)
+* data sheets. According to the DS2438 data sheet, the following limits are
+* specified for timing parameters.
+* 
+* | Parameter            | Symbol           | MIN   | MAX   | Units |
+* | :---                 |                  | :---: | :---: | :---: |
+* | Time Slot            | t<sub>SLOT</sub> | 60    | 120   | µs    |
+* | Recovery Time        | t<sub>REC</sub>  | 1     |       | µs    |
+* | Write 0 Low Time     | t<sub>LOW0</sub> | 60    | 120   | µs    |
+* | Write 1 Low Time     | t<sub>LOW1</sub> | 1     | 15    | µs    |
+* | Read Data Valid      | t<sub>RDV</sub>  |       | 15    | µs    |
+* | Reset Time High      | t<sub>RSTH</sub> | 480   |       | µs    |
+* | Reset Time Low       | t<sub>RSTL</sub> | 480   | 980   | µs    |
+* | Presence Detect High | t<sub>PDH</sub>  | 15    | 60    | µs    |
+* | Presence Detect Low  | t<sub>PDL</sub>  | 60    | 240   | µs    |
+* 
+*
+* ## Adjusted values ​​for this library
+* 
+* The timing parameters used are defined in a `constexpr` block and have been
+* adjusted to remain within the specified tolerances.
+* (@ref owtimingConstants "1-Wire Timing constants")
+* 
+* - TIME_RECOVERY - This period allows devices to recover after a write or read
+* operation. It is intentionally not used because the bus participants are
+* powered by an external voltage supply.
+* - TIME_RESET_LOW - This is the time for a reset pulse from the master; it
+* has been set to 500 µs to ensure a reliable reset is performed.
+* - TIME_PRESENCE_HIGH - During this time, the bus must go HIGH before the
+* participants pull it LOW again to signal their presence. (20µs)
+* - TIME_PRESENCE_LOW - Once the time for the HIGH presence pulse has elapsed,
+* the system waits for the LOW presence pulse. (70µs)
+* - TIME_RESET_HIGH - This duration must be observed until the complete reset
+* cycle has finished. The timing starts from the transition of the reset signal
+* from the low state to the high state. This specific duration is calculated
+* separately because, otherwise, it would be skewed by the TIME_PRESENCE_LOW
+* and TIME_PRESENCE_HIGH intervals.
+*
+* @todo Send a reset, then poll the bus for a High state; if High is detected
+* within the time limit, proceed to the next step. If no High signal appears,
+* monitor the maximum duration using microsecond ticks and abort with an error.
+* 
+* ## Simple Hardware Interface on MCUs
+*
+* The simplest way to operate a OneWire bus on a microcontroller requires only
+* one pin. This pin handles both bus control and reading data sent to the
+* master.This is achieved by using the "Data Direction Registers" to enable a
+* rapid sequence of pull-down and subsequent read slots. The pin is continuously
+* set to low. When the master wants to pull the bus low, the pin is configured
+* as an output via the DDR. Then, the pin is switched to an input, and the read
+* cycle can begin immediately. This requires an external pull-up resistor on the
+* pin to pull the bus high again. The advantage is an extremely simple hardware
+* interface without additional components. The disadvantage is that the pull-up
+* resistor limits the network size, as larger networks require a strong pull-up
+* resistor. Techniques like slew rate control cannot be implemented with this
+* method, and parasitic mode is also problematic.
+*
+* The pin's wiring:
+*
+* @code
+* ┌──────────┐     +5V
+* ┆          │      │
+* ┆          │     ┌┴┐
+* ┆          │     │ │ 10k
+* ┆          │     └┬┘             Bus
+* ┆  MCU PIN ├──────┴────<>────┬────────┬────>
+* ┆          │              ┌──┴──┐  ┌──┴──┐
+* ┆          │              │ Dev.│  │ Dev.│
+* ┆          │              │  1  │  │  2  │
+* ┆          │              └──┬──┘  └──┬──┘
+* ┆          │                 │        │   
+* └──────────┘                GND      GND  
+* @endcode
+*/

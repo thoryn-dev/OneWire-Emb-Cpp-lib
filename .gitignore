@@ -1,0 +1,57 @@
+# Build artifacts
+*.o
+*.a
+*.so
+*.exe
+*.out
+*.elf
+
+# PlatformIO build directories
+.pio/
+build/
+dist/
+
+# IDE specific files
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Temporary files
+*~
+
+# User-specific settings
+.env
+.env.local
+.env.*.local
+
+# Documentation
+docs/_build/
+docs/html/
+docs/man/
+
+# Test artifacts
+test/
+*.test
+
+# Visual Studio Code
+.vscode/settings.json
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/ipch
+.vscode/.browse.c_cpp.db*
+
+# Doxygen
+.doxygen/
+
+# block main.cpp in src folder
+src/main.cpp
+
+# private folder for notes
+private/

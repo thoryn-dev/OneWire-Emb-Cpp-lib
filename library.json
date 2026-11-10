@@ -1,0 +1,20 @@
+{
+  "name": "OneWire-MCU-Cpp-lib",
+  "version": "0.1.0",
+  "description": "A modern, clean C++ OneWire library for microcontrollers with its own HAL.",
+  "keywords": "1-wire, onewire, mcu, sensor, ds18b20, ds2438, hal, modern-cpp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thoryn-dev/OneWire-MCU-Cpp-lib.git"
+  },
+  "authors": [
+    {
+      "name": "M. Fiedler",
+      "email": "thoryn-dev@tuta.io",
+      "maintainer": true
+    }
+  ],
+  "license": "GPL-3.0-or-later",
+  "frameworks": "*",
+  "platforms": "*"
+}
