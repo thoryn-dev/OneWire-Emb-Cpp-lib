@@ -126,7 +126,11 @@ class Ds2438 : public Device {
         * conversion. If no address is specified, all devices are addressed via
         * Skip ROM and start the conversion simultaneously.
         * 
-        * @param[in] romId  Pointer to the target device's ROM ID
+        * @param[in] waitConversation   true = wait for the voltage completion 
+        * @param[in] romId              Pointer to the target device's ROM ID
+        * 
+        * @warning Waiting for the conversion to be completed is not yet
+        * implemented, so the parameter "waitConversation" has no effect.
         * 
         * @return
         * @retval 1 - successful
@@ -148,8 +152,11 @@ class Ds2438 : public Device {
         * at this point. The function is slated for revision and should be used
         * with caution until then.
         * 
-        * @param[in] waitConversation   true = wait for the completion signal from the DS18B20
+        * @param[in] waitConversation   true = wait for the temperature completion 
         * @param[in] romId              pointer to the target device's ROM ID
+        * 
+        * @warning Waiting for the conversion to be completed is not yet
+        * implemented, so the parameter "waitConversation" has no effect.
         * 
         * @return convertTemperature function status code
         * @retval Ds18B20::ConvertTemperatureStatus::ConversionCompleted
@@ -170,10 +177,7 @@ class Ds2438 : public Device {
         * the voltage is converted to mV and stored in the "voltage" field of
         * the SensorData struct. The voltage range is 0 V to 10 V.
         * 
-        * @todo resolution of temperature value must be proof (13bit)
-        * 
         * @param[in] romId  Pointer to the target device's ROM ID
-        * @param[in] page   Target page in SRAM/EEPROM (???)
         * 
         * @return true - successful
         * @return false - CRC failed

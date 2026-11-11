@@ -41,11 +41,8 @@
  * - @ref architecture - Explanation of the library's structure
  * - @ref busphysics - Explanation and notes on bus physics
  * - @ref styleguide - Style guide standards for changes to the library
- * 
- * @todo Switch the conversion process to non-blocking mode. To do this, create
- * a state variable that stores the steps and enables the corresponding
- * functions, eliminating the need for repeated polling in `main.cpp`.
- * @todo Move copy scratch and write scratch from specific device classes to
- * general device classes
- * 
+ *
+ * @todo Use `std::array` for array processing to avoid raw pointers. This also
+ * allows the array size to be passed to functions simultaneously. This makes
+ * the interfaces type-safe and easier to use.
  */

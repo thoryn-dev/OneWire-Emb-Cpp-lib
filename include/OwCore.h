@@ -18,7 +18,13 @@
  * the values ​​need to be calculated.
  * - potentially use std::array
  * - use reference instead of pointer for "romId"
- * - implement family code selection and/or skipROM functionality by hand over an empty ROM-ID Array as enum keyword
+ * - implement family code selection and/or skipROM functionality by hand over
+ * an empty ROM-ID Array as enum keyword
+ * - Switch the conversion process to non-blocking mode. To do this, create a
+ *  state variable that stores the steps and enables the corresponding
+ * functions, eliminating the need for repeated polling in `main.cpp`.
+ * - Move copy scratch and write scratch from specific device classes to
+ * general device classes
  */
 
 #pragma once
@@ -163,8 +169,8 @@ class Device {
             CopyScratch     	    = 0x48,     /**< causes the device to copy the data from the scratchpad to the EEPROM */
             MatchRom        	    = 0x55,     /**< Selects a single device in conjunction with a ROM ID */
             NormalSearchRom       	= 0xF0,     /**< Starts a ROM ID search for all devices */
-            OverdriveMatchRom	    = 0x69,
-            OverdriveSkipRom	    = 0x3C,
+            OverdriveMatchRom	    = 0x69,     /**< Similar to the MatchRom command, but only selects devices that support overdrive mode. */
+            OverdriveSkipRom	    = 0x3C,     /**< Similar to the SkipRom command, but only selects devices that support overdrive mode. */
             ReadRom				    = 0x33,     /**< Reads the ROM ID directly (only one device may be on the bus for this) */
             ReadScratch     	    = 0xBE,     /**< Initiates the reading of the scratchpad by the master */
             RecallMemory       	    = 0xB8,     /**< causes the device to copy the data from the EEPROM to the scratchpad */
@@ -334,13 +340,21 @@ class Device {
         /**
         * @brief Select ROM-ID
         * 
-        * This function selects a device based on its ROM-ID, or all devices if
-        * no ROM-ID is passed.
+        * This function selects a device based on its ROM-ID. If no ROM ID is
+        * provided, all devices are selected.
         * 
-        * \code{.cpp} selectRom(romId); \endcode Is equivalent to MatchROM
-        * Command with ID xx xx xx xx xx xx xx xx (stored in parameter "romId")
+        * @param[in] romId  Pointer to the target device's ROM ID
+        *  
+        * The following example corresponds to the MatchROM command with the
+        * ID xx xx xx xx xx xx xx, which is passed via the parameter romId.
+        * Only the device with the matching ROM ID will be selected.
         * 
-        * \code{.cpp} selectRom(); \endcode Is equivalent to SkipROM Command
+        * \code{.cpp} selectRom(romId); \endcode 
+        * 
+        * The second example corresponds to the SkipROM and selects all
+        * devices on the bus, regardless of the ROM ID.
+        * 
+        * \code{.cpp} selectRom(); \endcode
         * 
         * @todo
         * - implementing Family Match command
@@ -402,6 +416,15 @@ class Device {
         * @retval Device::RecallMemoryStatus::RecallSuccessfull
         * @retval Device::RecallMemoryStatus::ResetFailed
         * @retval Device::RecallMemoryStatus::PullUpFailed
+        * 
+        * @todo Check if a reliable verification process is in place for a data
+        *  transfer chain from master to scratchpad to EEPROM. Consider
+        * defining two stages via parameters: 1. Verification of the transfer
+        * only; 2. Verification of the successful EEPROM write operation
+        * (disadvantage: increased communication and processing time). This
+        * would additionally check the integrity of the device, especially in
+        * safety-relevant systems where, for example, alarm thresholds are
+        * stored in the EEPROM.
         */
         RecallMemoryStatus recallMemory(const uint8_t*, uint8_t);
       protected:
@@ -415,6 +438,9 @@ class Device {
         * from the 1-Wire bus.
         * 
         * Polynomial CRC8 Maxim (Dallas): \f$x^8 + x^5 + x^4 + 1\f$
+        * 
+        * @param[in] data  Pointers to the data to be used for CRC calculation
+        * @param[in] len   length of the data array
         * 
         * @return Calculated CRC8 value
         */

@@ -181,6 +181,14 @@ class Ds18B20 : public Device {
         * @retval Ds18B20::ReceiveTemperatureStatus::ResetFailed
         * @retval Ds18B20::ReceiveTemperatureStatus::PullUpFailed
         * @retval Ds18B20::ReceiveTemperatureStatus::CrcFailed
+        * 
+        * @todo Use a C++ template to output the temperature. Depending on the
+        * required data type, an int32_t value in m°C or a float value in °C
+        * will be output. A decision must be made as to whether the value is
+        * already correctly normalized in the member variables or only the raw
+        * value, which is then converted to int32_t by the function.
+        * Additionally, a compiler warning should be issued when using float
+        * values ​​on low-performance systems.
         */
         ReceiveTemperatureStatus receiveTemperature(const uint8_t* = nullptr);
 }; // end class Ds18B20

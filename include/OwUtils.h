@@ -37,7 +37,7 @@ namespace OWUTILS {
     * This function calculates the physical current from the DS2438's raw
     * value, taking into account the shunt resistor used.
     * 
-    * Formular for humidity: \f$I = senseVoltageRaw / (4096 * R_{SENS})\f$
+    * Formular for the current: \f$I = senseVoltageRaw / (4096 * R_{SENS})\f$
     * 
     * @note The factors in the formula were adjusted to make the fullest
     * possible use of the 16-bit data type in order to minimize rounding errors.
