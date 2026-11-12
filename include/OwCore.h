@@ -28,6 +28,7 @@
  */
 
 #pragma once
+#include <stddef.h>
 #include "hal/OwHal.h"
 
 namespace OW{
@@ -532,7 +533,7 @@ class Device {
         * 
         * @return Calculated CRC8 value
         */
-        uint8_t calculateCRC8(const uint8_t*, uint8_t);
+        uint8_t calculateCRC8(const uint8_t*, size_t);
     private:
         // Variables for 1-Wire search
         bool m_cmpIdBit = false;

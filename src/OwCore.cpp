@@ -6,6 +6,7 @@
 */
 
 #include <stdint.h>
+#include <stddef.h>
 #include "hal/OwHal.h"
 #include "OwCore.h"
 
@@ -221,7 +222,7 @@ void Device::selectRom(const uint8_t* romId) {
 	return;
 }
 
-uint8_t Device::calculateCRC8(const uint8_t *data, uint8_t len) {
+uint8_t Device::calculateCRC8(const uint8_t *data, size_t len) {
 	uint8_t crc8 = 0x00;
 	while (len--) {
 		uint8_t extract = *data++;
