@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com) and this p
 ## [Unreleased]
 
 ### Added
-- 
+- **Device Family Codes:** Added entries for numerous additional 1-Wire family codes to the FamilyCode enum list (e.g., DS2401, DS18S20, DS2431).
 
 ### Changed
 - 

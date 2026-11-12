@@ -188,14 +188,102 @@ class Device {
         };
         /**
         * @enum FamilyCode
-        * @brief 1-Wire device family codes
+        * @brief 1-Wire devices family codes
         * 
         * The enum contains the family codes of the various 1-Wire devices
-        * in hex.
+        * in hex. Devices with the same family code were listed separately to
+        * improve program readability. For example, DS1982 and DS2502 both
+        * have the hex code 0x09 but are listed separately in the ENUM.
+        * 
+        * @note No guarantee of completeness! The list may be incomplete,
+        * especially for third-party ICs, custom projects, and ICs introduced
+        * after this list was compiled.
         */
         enum FamilyCode : uint8_t {
-            Ds18B20     = 0x28,     /**< Programmable Resolution 1-Wire Digital Thermometer */
-            Ds2438      = 0x26      /**< Smart Battery Monitor */
+            DS1990A         = 0x01,     /**< Serial Number iButton */
+            DS1990R         = 0x01,     /**< Serial Number iButton */
+            DS2401          = 0x01,     /**< Silicon Serial Number IC */
+            DS2411          = 0x01,     /**< Silicon Serial Number IC with or without VCC Input */
+            DS1991          = 0x02,     /**< Multikey iButton, 1152-bit secure memory      */
+            DS2404          = 0x04,     /**< EconoRAM Time Chip, 4Kb NV-RAM memory and clock, timer, alarms */
+            DS2405          = 0x05,     /**< Addressable Switch, 1 PIO */
+            DS1993          = 0x06,     /**< 4Kb NV RAM memory */
+            DS1992          = 0x08,     /**< 1Kb NV RAM memory */
+            DS1982          = 0x09,     /**< 1Kb Add-Only EPROM iButton */
+            DS2502          = 0x09,     /**< 1Kb Add-Only EPROM Memory */
+            DS1995          = 0x0A,     /**< 16Kb Memory iButton */
+            DS1985          = 0x0B,     /**< 16Kb EPROM memory */
+            DS2505          = 0x0B,     /**< 16Kb EPROM memory */
+            DS1996          = 0x0C,     /**< 64Kb NV RAM memory */
+            DS1986          = 0x0F,     /**< 64Kb EPROM memory */
+            DS2506          = 0x0F,     /**< 64Kb EPROM memory */
+            DS18S20         = 0x10,     /**< High-Precision 1-Wire Digital Thermometer */
+            DS2406          = 0x12,     /**< Dual Addressable Switch + 1Kb Memory */
+            DS2407          = 0x12,     /**< Dual Addressable Switch + 1Kb Memory */
+            DS1971          = 0x14,     /**< 256-bit EEPROM memory and 64-bit OTP register */
+            DS2430A         = 0x14,     /**< 256-bit EEPROM memory and 64-bit OTP register */
+            DS1954          = 0x16,     /**< Cryptographic iButton */
+            DS1957          = 0x16,     /**< Cryptographic Java-Powered iButton */
+            DS1962          = 0x18,     /**< 4kb monetary device with SHA */
+            DS1963S         = 0x18,     /**< 4kb monetary device with SHA */
+            DS1963L         = 0x1A,     /**< 4Kb NV RAM memory with write cycle counters */
+            DS2436          = 0x1B,     /**< Battery ID/Monitor Chip */
+            DS28E04_100     = 0x1C,     /**< 4096-bit EEPROM memory, 2-channel addressable switch */
+            DS2423          = 0x1D,     /**< 4Kb NV RAM memory with external counters */
+            DS2437          = 0x1E,     /**< Smart Battery Monitor */
+            DS2409          = 0x1F,     /**< 2-channel addressable coupler for sub-netting */
+            DS2450          = 0x20,     /**< 4-channel A/D converter (ADC) */
+            DS1921G         = 0x21,     /**< Thermochron temperature logger */
+            DS1921H         = 0x21,     /**< Thermochron temperature logger */
+            DS1921Z         = 0x21,     /**< Thermochron temperature logger */
+            DS1822          = 0x22,     /**< econo digital thermometer */
+            DS1973          = 0x23,     /**< 4Kb EEPROM memory */
+            DS2433          = 0x23,     /**< 4Kb EEPROM memory */
+            DS2415          = 0x24,     /**< Real-time clock (RTC) */
+            DS2438          = 0x26,     /**< Smart Battery Monitor */
+            DS2417          = 0x27,     /**< RTC with interrupt */
+            DS18B20         = 0x28,     /**< Programmable Resolution 1-Wire Digital Thermometer */
+            DS2408          = 0x29,     /**< 8-channel addressable switch */
+            DS2890          = 0x2C,     /**< 1-channel digital potentiometer */
+            DS1972          = 0x2D,     /**< 1024-bit, 1-Wire EEPROM */
+            DS2431          = 0x2D,     /**< 1024-bit, 1-Wire EEPROM */
+            DS2770          = 0x2E,     /**< Battery Monitor and Charge Controller */
+            DS2760          = 0x30,     /**< High-precision Li + battery monitor */
+            DS2720          = 0x31,     /**< Efficient, Addressable Single-Cell Rechargeable Lithium Protection IC */
+            DS2780          = 0x32,     /**< Standalone Fuel Gauge IC (Maxim/Dallas) */
+            DS1961S         = 0x33,     /**< 1kb Protected EEPROM iButton With SHA-1 Engine (Maxim/Dallas) */
+            DS2432          = 0x33,     /**< 1kb memory with SHA */
+            DS2703          = 0x34,     /**< SHA-1 Battery Pack Authentication IC */
+            DS2755          = 0x35,     /**< High-Accuracy Battery Fuel Gauge with Programmable Suspend Mode */
+            DS2740          = 0x36,     /**< High-Precision Coulomb Counter */
+            DS1977          = 0x37,     /**< Password-protected 32KB (bytes) EEPROM */
+            DS2781          = 0x3D,     /**< 1-Cell or 2-Cell Stand-Alone Fuel Gauge IC */
+            DS2413          = 0x3A,     /**< 1-Wire Dual-Channel Addressable Switch */
+            DS1825          = 0x3B,     /**< Programmable Resolution 1-Wire Digital Thermometer With 4-Bit ID  */
+            MAX31826        = 0x3B,     /**< 1-Wire Digital Temperature Sensor with 1Kb Lockable EEPROM */
+            MAX31850        = 0x3B,     /**< Cold-Junction Compensated, 1-Wire Thermocouple-to-Digital Converters */
+            DS1923          = 0x41,     /**< iButton Hygrochron Temperature/Humidity Logger with 8KB Datalog Memory */
+            DS1922E         = 0x41,     /**< iButton High-Temperature Logger with 8KB Datalog Memory */
+            DS1922L         = 0x41,     /**< iButton Temperature Loggers with 8KB Datalog Memory */
+            DS1922T         = 0x41,     /**< iButton Temperature Loggers with 8KB Datalog Memory */
+            MOAT            = 0xF0,     /**< custom microcontroller slave */
+            DS28EA00        = 0x42,     /**< Programmable resolution digital thermometer with sequenced detection and PIO */
+            DS28EC20        = 0x43,     /**< 20Kb 1-Wire EEPROM */
+            DS28E10         = 0x44,     /**< 1-Wire SHA-1 Authenticator */
+            DS2751          = 0x51,     /**< Multichemistry Battery Fuel Gauge */
+            EDS00xx         = 0x7E,     /**< Environmental Sensor (Embedded Data Systems) */
+            DS1420          = 0x81,     /**< Serial ID Button */
+            DS1425          = 0x82,     /**< Multi iButton, password protected 384bit RAM */
+            mRS001          = 0xA0,     /**< Rotation Sensor (CMC Industrial Electronics) */
+            mVM001          = 0xA1,     /**< Vibration Sensor (CMC Industrial Electronics) */
+            mCM001          = 0xA2,     /**< AC Current Monitor (CMC Industrial Electronics) */
+            mTS017          = 0xA6,     /**< IR Temperature Sensor (CMC Industrial Electronics) */
+            mTC001          = 0xB1,     /**< Thermocouple Converter (CMC Industrial Electronics) */
+            mAM001          = 0xB2,     /**< Analog Input Module (CMC Industrial Electronics) */
+            mTC002          = 0xB3,     /**< Thermocouple Converter (CMC Industrial Electronics) */
+            BAE0910         = 0xFC,     /**< Multifunction 1-wire slave device with Memory, PWM, ADC, PIO, Counter, Clock, Alarm */
+            BAE0911         = 0xFC,     /**< Multifunction 1-wire slave device with Memory, PWM, ADC, PIO, Counter, Clock, Alarm */
+            Swart_LCD       = 0xFF      /**< Classic HD44780-text display (Louis Swart) */
         };
         /**
         * @enum SearchDeviceStatus
