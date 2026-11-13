@@ -1,38 +1,33 @@
 /** 
 * @file main.cpp
+* @example ds18b20/main.cpp
+* @brief Simple example for DS18B20 communication
 *
-* @brief Simple example of how to use the 1-Wire library
-*
-* Here is a simple example demonstrating how to use the 1-Wire library.
+* Here is a simple example demonstrating how to use the 1-Wire library with a
+* single DS18B20 temperature sensor.
 *
 * The example sets up and configures a new 1-Wire interface. It then reads data
 * from a single DS18B20 and outputs the measured value to the serial terminal.
 *
-* @note For this example code, only a single DS18B20 must be connected to the
-* bus!
-* 
+* @note This example is only for Arduino Nano (Atmega 328) and only a single
+* DS18B20 must be connected to the bus!
+*
 * Here is a breakdown of what this example does:
 *
 * - It initializes a bus interface
 * - It configures the resolution of the DS18B20
-* - It performs a ROM search and outputs the ROM ID to the serial terminal
 * - It initiates the temperature conversion on the DS18B20
 * - It reads the temperature and outputs it to the serial terminal
-* - Additionally, status messages and any errors that may occur are output to the
-*   serial terminal
+* - At the end the code waits for 1 second and started the next temperatur
+*   meassurment
+* - Additionally, status messages and any errors that may occur are output to
+*   the serial terminal
 */
-
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <inttypes.h>
-
 #include <util/delay.h>
-
 #include "hal/OwHal.h"
 #include "OwCore.h"
 #include "OwDs18B20.h"
-#include "OwDs2438.h"
 #include "Serial.h"
 
 using namespace OW;
@@ -42,18 +37,43 @@ int main(void) {
 
 	Serial Ser1;
 
-	Hal myHal(&DDRD, &PIND, &PORTD, PORTD7);    // initializing the 1-Wire HAL
-	Bus myInterface(myHal);                     // initializing the 1-Wire Bus
-	Device myDevice(myInterface);               // initializing the 1-Wire Device
-	Ds18B20 myDs18B20(myInterface);             // initializing the DS18B20 sensor
+    //-------------------------------------------------------------------------
+    // This section initializes the entire 1-Wire bus interface once.
+    //-------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Test code: set resolution of temperature sensor DS18B20
-//-----------------------------------------------------------------------------
+	// 1. Initializes the 1-Wire HAL and passes the pins to the HAL that are to
+	// be used.
+	//
+	// For this example pin 7 of port D is used.
+	// DDRD   - Data direction register for port D
+	// PIND   - Pin input register (to read) for Port D
+	// PORTD  - Pin output register (to write) for Port D
+	// PORTD7 - Bit mask for pin 7 on port D 
+	Hal myHal(&DDRD, &PIND, &PORTD, PORTD7);
+
+	// 2. Initializes the bus interface and passes the previously created HAL.
+	// This gives the bus a concrete connection to the hardware.
+	Bus myInterface(myHal);
+
+	// 3. Initializes the generic device which provides standard functions and
+	// binds it to the previously created bus.
+	Device myDevice(myInterface);
+
+	// 4. Initializes a specific sensor (in this case the DS18B20) that also
+	// accesses the bus interface.
+	Ds18B20 myDs18B20(myInterface);
+
+    //-------------------------------------------------------------------------
+    // This section defines the configuration of the DS18B20 and sends it to
+	// the sensor.
+    //-------------------------------------------------------------------------
+
+	// Sets the temperature resolution of the DS18B20 to 10 bits.
 	myDs18B20.Data.configResolution = 10;
-	myDs18B20.Data.configTemperatureHigh = 0;
-	myDs18B20.Data.configTemperatureLow = 0;
 
+	// The configuration is then sent to the sensor and evaluated to determine
+	// if it was successful. The status is analyzed, a text message is
+	// generated, and stored in the send buffer for the serial interface.
 	switch (myDs18B20.setConfiguration(false)) {
 	    case Ds18B20::SetConfigurationStatus::ResetFailed:
 	    	snprintf(serialBuffer, sizeof(serialBuffer), "Config: reset failed!\n\n");
@@ -71,99 +91,69 @@ int main(void) {
 	    	break;
 	}
 
+	// The data is sent to the serial terminal
 	Ser1.serialSend(serialBuffer);
 
 	_delay_ms (1000);
 	
-	while (1) { // begin while
+	// This is where the cyclical part of the program begins.
+	while (1) {
+		//-------------------------------------------------------------------------
+		// This section causes the DS18B20 to start a temperature conversion.
+		//-------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Test code: ROM-ID search algorithm
-//-----------------------------------------------------------------------------
-	Device::SearchDeviceStatus status;
-
-	do{
-		status = myDevice.searchDevice(false);
-		if(status == Device::SearchDeviceStatus::DeviceFound){
-			uint8_t romId[8];
-			myDevice.getRomId(romId);
-			snprintf(serialBuffer, sizeof(serialBuffer), "Rom ID: %X, %X, %X, %X, %X, %X, %X, %X\n", romId[0],
-																									 romId[1],
-																									 romId[2],
-																									 romId[3],
-																									 romId[4],
-																									 romId[5],
-																									 romId[6],
-																									 romId[7]);
-		Ser1.serialSend(serialBuffer);
+		// The temperature conversion command is sent, then the system waits for
+		// the conversion to complete and then evaluates the status.
+		// A corresponding text message is generated from the status and stored in
+		// the serial interface buffer.
+		switch(myDs18B20.convertTemperature(true)) {
+			case Ds18B20::ConvertTemperatureStatus::ResetFailed:
+				snprintf(serialBuffer, sizeof(serialBuffer), "Convert: reset failed!\n");
+				Ser1.serialSend(serialBuffer);
+				break;
+			case Ds18B20::ConvertTemperatureStatus::ConversionStarted:
+				snprintf(serialBuffer, sizeof(serialBuffer), "Convert: started!\n");
+				Ser1.serialSend(serialBuffer);
+				break;
+			case Ds18B20::ConvertTemperatureStatus::ConversionCompleted:
+				snprintf(serialBuffer, sizeof(serialBuffer), "Convert: finished!\n");
+				Ser1.serialSend(serialBuffer);
+				break;		
+			default:
+				break;
 		}
-	}while(status == Device::SearchDeviceStatus::DeviceFound);
 
-	switch (status){
-	    case Device::SearchDeviceStatus::LastDeviceFound:
-	    	snprintf(serialBuffer, sizeof(serialBuffer), "Search: last device found!\n\n");
-	    	break;
-	    case Device::SearchDeviceStatus::ResetFailed:
-	    	snprintf(serialBuffer, sizeof(serialBuffer), "Search: Reset failed!\n\n");
-	    	break;
-	    case Device::SearchDeviceStatus::CRCFailed:
-	    	snprintf(serialBuffer, sizeof(serialBuffer), "Search: CRC failed!\n\n");
-	    	break;
-	    case Device::SearchDeviceStatus::SearchFailed:
-	    	snprintf(serialBuffer, sizeof(serialBuffer), "Search: no device respond!\n\n");
-	    	break;
-	    default:
-	    	break;
-	}
+	    //-------------------------------------------------------------------------
+	    // In this section, the finished temperature is received and displayed on
+		// the terminal.
+	    //-------------------------------------------------------------------------
 
-	Ser1.serialSend(serialBuffer);
-			
-//-----------------------------------------------------------------------------
-// Test code: temperature conversation on DS18B20
-//-----------------------------------------------------------------------------
-
-	switch(myDs18B20.convertTemperature(true)) {
-		case Ds18B20::ConvertTemperatureStatus::ResetFailed:
-			snprintf(serialBuffer, sizeof(serialBuffer), "Convert: reset failed!\n");
-			Ser1.serialSend(serialBuffer);
-			break;
-		case Ds18B20::ConvertTemperatureStatus::ConversionStarted:
-			snprintf(serialBuffer, sizeof(serialBuffer), "Convert: started!\n");
-			Ser1.serialSend(serialBuffer);
-			break;
-		case Ds18B20::ConvertTemperatureStatus::ConversionCompleted:
-			snprintf(serialBuffer, sizeof(serialBuffer), "Convert: finished!\n");
-			Ser1.serialSend(serialBuffer);
-			break;		
-		default:
-			break;
-	}
-
-//-----------------------------------------------------------------------------
-// Test code: receive temperature from DS18B20
-//-----------------------------------------------------------------------------
-	switch (myDs18B20.receiveTemperature()) {
-		case Ds18B20::ReceiveTemperatureStatus::CrcFailed:
-			snprintf(serialBuffer, sizeof(serialBuffer), "Receive: CRC failed!\n");
-			Ser1.serialSend(serialBuffer);
-			break;
-		case Ds18B20::ReceiveTemperatureStatus::PullUpFailed:
-			snprintf(serialBuffer, sizeof(serialBuffer), "Receive: Pullup failed!\n");
-			Ser1.serialSend(serialBuffer);
-			break;
-		case Ds18B20::ReceiveTemperatureStatus::ResetFailed:
-			snprintf(serialBuffer, sizeof(serialBuffer), "Receive: Reset failed!\n");
-			Ser1.serialSend(serialBuffer);
-			break;
-		case Ds18B20::ReceiveTemperatureStatus::ReceivedSuccessfully:
-			snprintf(serialBuffer, sizeof(serialBuffer), "Receive: successful!\n");
-			Ser1.serialSend(serialBuffer);
-			snprintf(serialBuffer, sizeof(serialBuffer), "Temperature m°C: %ld\n", static_cast<signed long>(myDs18B20.Data.valueTemperature));
-			Ser1.serialSend(serialBuffer);
-			break;				
-		default:
-			break;
-	}
-
+		// Here, the data reception process is initiated and the status is
+		// evaluated. If an error occurs, a corresponding text message is displayed
+		// on the terminal. If the temperature reading is successful, the current
+		// value is displayed on the terminal.
+		switch (myDs18B20.receiveTemperature()) {
+			case Ds18B20::ReceiveTemperatureStatus::CrcFailed:
+				snprintf(serialBuffer, sizeof(serialBuffer), "Receive: CRC failed!\n");
+				Ser1.serialSend(serialBuffer);
+				break;
+			case Ds18B20::ReceiveTemperatureStatus::PullUpFailed:
+				snprintf(serialBuffer, sizeof(serialBuffer), "Receive: Pullup failed!\n");
+				Ser1.serialSend(serialBuffer);
+				break;
+			case Ds18B20::ReceiveTemperatureStatus::ResetFailed:
+				snprintf(serialBuffer, sizeof(serialBuffer), "Receive: Reset failed!\n");
+				Ser1.serialSend(serialBuffer);
+				break;
+			case Ds18B20::ReceiveTemperatureStatus::ReceivedSuccessfully:
+				snprintf(serialBuffer, sizeof(serialBuffer), "Receive: successful!\n");
+				Ser1.serialSend(serialBuffer);
+				snprintf(serialBuffer, sizeof(serialBuffer), "Temperature mdegC: %ld\n", static_cast<signed long>(myDs18B20.Data.valueTemperature));
+				Ser1.serialSend(serialBuffer);
+				break;				
+			default:
+				break;
+		}
+		_delay_ms(1000);
 	} // end while
 } // end main
