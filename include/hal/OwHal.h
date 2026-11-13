@@ -17,7 +17,7 @@
  #pragma once
 
 // PlatformIO sets flag to indicate the used platform
-#if defined(ARDUINO_ARCH_AVR)
+#if defined(__AVR__)
     #include <hal/OwAtmega328.h>
 #elif defined(STM32F4xx)
     #include <hal/OwHalStm32F4.h>
