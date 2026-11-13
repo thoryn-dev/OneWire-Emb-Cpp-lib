@@ -4,13 +4,13 @@
 /**
  * @file OwAtmega328.cpp
  */
-
-#include <avr/io.h>
-#include <util/atomic.h>
-#include <avr/interrupt.h>
 #include "hal/OwAtmega328.h"
 
 namespace OW{
+
+//-----------------------------------------------------------------------------
+// Class Hal
+//-----------------------------------------------------------------------------
 
 Hal::Hal(volatile uint8_t* directionRegister, volatile uint8_t* portInRegister, volatile uint8_t* portOutRegister, uint8_t pinNumber)
             : m_directionRegister(directionRegister), m_portInRegister(portInRegister), m_portOutRegister(portOutRegister), m_pinNumber(1 << pinNumber){
@@ -56,6 +56,42 @@ void Hal::waitUs(uint16_t delay) {
     uint16_t tick = delay * 16 - 15;    // at prescaler of 1 one tick correspond to 62,5 ns (2 Ticks) and correction factor
     TCNT1 = 0;                          // reset TIMER1 count register
     while(TCNT1 < tick);                // wait until the target time is reached
+}
+
+//-----------------------------------------------------------------------------
+// Class SerialConsole
+//-----------------------------------------------------------------------------
+
+SerialConsole::SerialConsole() {
+	UBRR0 = 51;		//Baud 19.200k
+	UCSR0B = (1 << TXEN0);
+	UCSR0C = (1 << UCSZ00) |
+	(1 << UCSZ01);
+	return;
+}
+
+SerialConsole::~SerialConsole() {
+	
+}
+
+void SerialConsole::serialSend(const char* string) {
+	while((*string)) {
+		while(!(UCSR0A & 0b00100000)){}
+		UDR0 = *string;
+		while(!(UCSR0A & 0b01000000)){}
+		string += 1;
+	}
+}
+
+void SerialConsole::serialSend(uint8_t number) {
+	//sprintf( String, "%d", number );
+	char String = number + '0';
+	while((String)) {
+		while(!(UCSR0A & 0b00100000)){}
+		UDR0 = String;
+		while(!(UCSR0A & 0b01000000)){}
+		String += 1;
+	}
 }
 
 } //end namespace OW

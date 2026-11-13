@@ -15,6 +15,10 @@
 
 #pragma once
 #include <stdint.h>
+// Platform specific librarys
+#include <util/atomic.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
 
 namespace OW{
 
@@ -128,6 +132,40 @@ class Hal {
         volatile uint8_t* m_portOutRegister;    ///< Stores the pointer to the Port Output Register that was passed to the constructor
         uint8_t m_pinNumber;                    ///< Stores the pin bit mask that was passed to the constructor
         uint8_t m_sregBackup;                   ///< Stores the value of the SREG register when interrupt disabling is toggled.
+};
+
+/**
+ * @class SerialConsole
+ * @brief Class for basic serial communication
+ *
+ * This class provides a simple serial interface. See the following Todo
+ * section for more information.
+ * 
+ * @todo Develop a debug interface for the library, or a serial console for
+ * control and configuration would be conceivable. The Console should also
+ * become platform-independent, but remain optional in principle.
+ */
+class SerialConsole {
+	public:
+		SerialConsole();	// Constructor
+		~SerialConsole();	// Destructor
+		/**
+		* @brief Send string to the serial interface
+		* 
+		* This function is used to send individual ASCII characters to the serial
+		* interface. This allows strings to be transferred to a PC.
+		* 
+		* @param[in] string	The ASCII character to be sent to the interface.
+		*/
+		void serialSend(const char*);
+		/**
+		* @brief Send string to the serial interface
+		* 
+		* The function is used to send an eight-bit value to the serial interface.
+		* 
+		* @param[in] number	The value to be sent to the serial interface
+		*/
+		void serialSend(uint8_t);
 };
 
 } // end namespace OW

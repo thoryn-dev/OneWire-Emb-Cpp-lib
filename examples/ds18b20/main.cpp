@@ -27,14 +27,13 @@
 #include "hal/OwHal.h"
 #include "OwCore.h"
 #include "OwDs18B20.h"
-#include "Serial.h"
 
 using namespace OW;
 
 int main(void) {
 	char serialBuffer[50];
 
-	Serial Ser1;
+	SerialConsole Ser1;
 
     //-------------------------------------------------------------------------
     // This section initializes the entire 1-Wire bus interface once.

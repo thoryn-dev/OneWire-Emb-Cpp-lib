@@ -7,21 +7,18 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <inttypes.h>
-
 #include <util/delay.h>
-
 #include "hal/OwHal.h"
 #include "OwCore.h"
 #include "OwDs18B20.h"
 #include "OwDs2438.h"
-#include "Serial.h"
 
 using namespace OW;
 
 int main(void) {
 	char serialBuffer[50];
 
-	Serial Ser1;
+	SerialConsole Ser1;
 
 	Hal myHal(&DDRD, &PIND, &PORTD, PORTD7);    // initializing the 1-Wire HAL
 	Bus myInterface(myHal);                     // initializing the 1-Wire Bus
