@@ -43,9 +43,8 @@ class OwDeviceManager {
         uint16_t findFirstEmpty(uint16_t);
         /**
         * @brief Update EEPROM database for new devices
-        * @param[in] start Start address of EEPROM field
         */
-        void updateDatabase(uint8_t);
+        void updateDatabase();
     private:
-        uint16_t m_firstEmpty = 0;
+        uint16_t m_firstEmpty = 0;  /**< The first free address in the EEPROM is stored here. */
 };

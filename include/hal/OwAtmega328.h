@@ -50,8 +50,38 @@ class Hal {
         */
         Hal(volatile uint8_t*, volatile uint8_t*, volatile uint8_t*, uint8_t);
         ~Hal();
+        /**
+        * @brief Set the MCU pin low
+        * 
+        * This Function set the MCU pin to low via the hardware specific
+        * registers.
+        * 
+        * @note Setting the pin to low is not accomplished via the output
+        * register as usual; instead, the output register is permanently low,
+        * and only the data direction register is switched between input and
+        * output. This allows the pin to switch either to low or into high
+        * impedance mode.
+        */
         void setPinLow();
+        /**
+        * @brief Release the MCU pin
+        * 
+        * This Function releases the MCU pin to high impedance mode via the
+        * hardware specific registers.
+        * 
+        * @note Releasing the pin is not accomplished via the output
+        * register as usual; instead, the output register is permanently low,
+        * and only the data direction register is switched between input and
+        * output. This allows the pin to switch either to low or into high
+        * impedance mode.
+        */
         void releasePin();
+        /**
+        * @brief Read MCU pin
+        * 
+        * This Function reads the current Value from the MCU pin via the
+        * hardware input register.
+        */
         bool readPin();
         /**
         * @brief Lock MCU interrupts
@@ -93,11 +123,11 @@ class Hal {
         */
         void waitUs(uint16_t);
     private:      
-        volatile uint8_t* m_directionRegister;
-        volatile uint8_t* m_portInRegister;
-        volatile uint8_t* m_portOutRegister;
-        uint8_t m_pinNumber;
-        uint8_t m_sregBackup;
+        volatile uint8_t* m_directionRegister;  ///< Stores the pointer to the Data Direction Register that was passed to the constructor
+        volatile uint8_t* m_portInRegister;     ///< Stores the pointer to the Port Input Register that was passed to the constructor
+        volatile uint8_t* m_portOutRegister;    ///< Stores the pointer to the Port Output Register that was passed to the constructor
+        uint8_t m_pinNumber;                    ///< Stores the pin bit mask that was passed to the constructor
+        uint8_t m_sregBackup;                   ///< Stores the value of the SREG register when interrupt disabling is toggled.
 };
 
 } // end namespace OW

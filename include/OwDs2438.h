@@ -80,11 +80,11 @@ class Ds2438 : public Device {
             bool        flagTb                  = false;    /**< Temperature Busy Flag. 1 = temperature conversion in progress; 0 = temperature conversion complete. */
             bool        flagNvb                 = false;    /**< Nonvolatile Memory Busy Flag. 1 = Copy from Scratchpad to EEPROM in progress; 0 = Nonvolatile memory not busy */
             bool        flagAdb                 = false;    /**< A/D Converter Busy Flag. 1 = A/D conversion in progress on battery voltage; 0 = conversion complete, or no measurement being made */
-        } Data;
+        } Data; ///< Stores the configuration and measurement data of the Sensor 
         /**
         * @brief Constructor for Device DS2438
         * 
-        * @param[in] Bus interface from Bus
+        * @param[in] interface interface from Bus
         */
         explicit Ds2438(Bus&);
         /**

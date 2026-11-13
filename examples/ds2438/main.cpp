@@ -1,25 +1,6 @@
 /** 
-* @file main.cpp
-*
-* @brief Simple example of how to use the 1-Wire library
-*
-* Here is a simple example demonstrating how to use the 1-Wire library.
-*
-* The example sets up and configures a new 1-Wire interface. It then reads data
-* from a single DS18B20 and outputs the measured value to the serial terminal.
-*
-* @note For this example code, only a single DS18B20 must be connected to the
-* bus!
-* 
-* Here is a breakdown of what this example does:
-*
-* - It initializes a bus interface
-* - It configures the resolution of the DS18B20
-* - It performs a ROM search and outputs the ROM ID to the serial terminal
-* - It initiates the temperature conversion on the DS18B20
-* - It reads the temperature and outputs it to the serial terminal
-* - Additionally, status messages and any errors that may occur are output to the
-*   serial terminal
+* @example ds2438/main.cpp
+* @brief Simple example for DS2438 communication
 */
 
 #include <stdio.h>

@@ -2,7 +2,7 @@
 // Copyright (c) 2026 M. Fiedler
 
 /**
- * @file OwHal.cpp
+ * @file OwAtmega328.cpp
  */
 
 #include <avr/io.h>

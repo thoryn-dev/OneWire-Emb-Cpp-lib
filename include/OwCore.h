@@ -121,7 +121,7 @@ class Bus {
         */
         void sendByte(uint8_t);
     private:
-        Hal& m_interfaceHal;
+        Hal& m_interfaceHal;    ///< Stores the reference of the passed HAL interface
         /** 
         * @name 1-Wire Timing constants
         * @anchor owtimingConstants
@@ -130,20 +130,20 @@ class Bus {
         ///@{
         static constexpr uint16_t TIME_SLOT          = 100;                                             ///< Duration of a complete time slot
         static constexpr uint16_t TIME_RECOVERY      =   5;                                             ///< Bus recovery time after a read/write operation
-        static constexpr uint16_t TIME_WRITE_1       =   5;                                             ///< Time to write a "1" bit
-        static constexpr uint16_t TIME_WRITE_0       =  80;                                             ///< Time to write a "0" bit
+        static constexpr uint16_t TIME_WRITE_1       =   5;                                             ///< Pull low time to write a "1" bit
+        static constexpr uint16_t TIME_WRITE_0       =  80;                                             ///< Pull low time to write a "0" bit
         static constexpr uint16_t TIME_READ          =  10 - TIME_WRITE_1;                              ///< Time until the sampling for reading begins
         static constexpr uint16_t TIME_PRESENCE_LOW  =  70;                                             ///< Reset: time until sample input state
         static constexpr uint16_t TIME_PRESENCE_HIGH =  20;                                             ///< Reset: Time during which the bus must be high after a reset.
         static constexpr uint16_t TIME_RESET_LOW     = 500;                                             ///< Reset: time for drive bus low (min. 480us)
         static constexpr uint16_t TIME_RESET_HIGH    = 500 - TIME_PRESENCE_HIGH - TIME_PRESENCE_LOW;    ///< Reset: time for become bus high after present pulse
-        static constexpr uint16_t TIME_SLOT_1        = TIME_SLOT - TIME_WRITE_1;
-        static constexpr uint16_t TIME_SLOT_0        = TIME_SLOT - TIME_WRITE_0;
+        static constexpr uint16_t TIME_SLOT_1        = TIME_SLOT - TIME_WRITE_1;                        ///< Release time after write a "1" bit
+        static constexpr uint16_t TIME_SLOT_0        = TIME_SLOT - TIME_WRITE_0;                        ///< Release time after write a "0" bit
         static constexpr uint16_t TIME_SLOT_READ     = TIME_SLOT - TIME_WRITE_1 - TIME_READ;            ///< Read:  time for recovery after reading
         ///@}
 
-        static constexpr uint8_t MSB = 0b10000000;	// Most significant bit
-        static constexpr uint8_t LSB = 0b00000001;	// Least significant bit
+        static constexpr uint8_t MSB = 0b10000000;	///<  Most significant bit mask
+        static constexpr uint8_t LSB = 0b00000001;	///<  Least significant bit mask
 }; // end class Bus
 
 /**
@@ -334,7 +334,7 @@ class Device {
         * bus interface from Bus. It provides basic, device-independent
         * functionality, such as ROM ID searching, CRC checking, etc.
         * 
-        * @param[in] Bus interface from Bus
+        * @param[in] interface interface from Bus
         */
         explicit Device(Bus&);
         ~Device();
@@ -517,8 +517,8 @@ class Device {
         */
         RecallMemoryStatus recallMemory(const uint8_t*, uint8_t);
       protected:
-        uint8_t m_data[9];     
-        Bus& m_busInterface;
+        uint8_t m_data[9];      ///< Stores data received or transfer from or to the Sensor
+        Bus& m_busInterface;    ///< Stores the reference of the passed bus interface
         /**
         * @brief CRC8 - Calculation
         * 
@@ -536,17 +536,17 @@ class Device {
         uint8_t calculateCRC8(const uint8_t*, size_t);
     private:
         // Variables for 1-Wire search
-        bool m_cmpIdBit = false;
-        bool m_idBit = false;
-        bool m_lastDeviceFlag = false;
-        bool m_searchDirection = false;
-        uint8_t m_bitMask = 1;
-        uint8_t m_byteMask = 0;        
-        uint8_t m_idBitIndex = 1;
-        uint8_t m_lastDiscrepancy = 0;
-        uint8_t m_lastFamilyDiscrepancy = 0;
-        uint8_t m_lastZero = 0;
-        uint8_t m_romNo[8];
+        bool m_cmpIdBit = false;                ///< the complement of the id_bit
+        bool m_idBit = false;                   ///< the first bit read in a bit search sequence
+        bool m_lastDeviceFlag = false;          ///< flag to indicate previous search was the last device
+        bool m_searchDirection = false;         ///< bit value indicating the direction of the search
+        uint8_t m_bitMask = 1;                  ///< Bit mask for 1-Wire search
+        uint8_t m_byteMask = 0;                 ///< Byte mask for 1-Wire search
+        uint8_t m_idBitIndex = 1;               ///< Index for bit in the 64 bit ROM address
+        uint8_t m_lastDiscrepancy = 0;          ///< bit index that identifies from which bit the (next) search discrepancy check should start
+        uint8_t m_lastFamilyDiscrepancy = 0;    ///< bit index that identifies the LastDiscrepancy within the first 8-bit family code of ROM number
+        uint8_t m_lastZero = 0;                 ///< bit position of the last zero written where there was a discrepancy
+        uint8_t m_romNo[8];                     ///< 8-byte buffer that contains the current ROM registration number discovered
 }; // end class Device
 
 } // end namespace OW

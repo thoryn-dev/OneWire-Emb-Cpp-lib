@@ -74,11 +74,11 @@ class Ds18B20 : public Device {
             uint8_t configResolution = 12;      /**< resolution temperature measurement */
             uint8_t configTemperatureHigh = 0;  /**< temperature upper alarm threshold */
             uint8_t configTemperatureLow = 0;   /**< temperature lower alarm threshold */
-        } Data;
+        } Data; ///< Stores the configuration and measurement data of the Sensor 
         /**
         * @brief Constructor for Device DS18B20
         * 
-        * @param[in] Bus interface from Bus
+        * @param[in] interface interface from Bus
         */
         explicit Ds18B20(Bus&);
         /**

@@ -24,7 +24,7 @@
  * void sendByte(uint8_t);
  * @endcode
  *
- * - Contants, constexpr and #define are written in "SCREAMING_SNAKE_CASE"
+ * - Contants, constexpr and \#define are written in "SCREAMING_SNAKE_CASE"
  * @code
  * static constexpr uint16_t TIME_SLOT
  * @endcode

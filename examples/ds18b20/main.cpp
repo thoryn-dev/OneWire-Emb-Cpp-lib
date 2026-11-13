@@ -1,5 +1,4 @@
 /** 
-* @file main.cpp
 * @example ds18b20/main.cpp
 * @brief Simple example for DS18B20 communication
 *
