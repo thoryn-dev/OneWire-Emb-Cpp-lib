@@ -19,8 +19,8 @@
 // PlatformIO sets flag to indicate the used platform
 #if defined(__AVR__)
     #include <hal/OwAtmega328.h>
-#elif defined(STM32F4xx)
-    #include <hal/OwHalStm32F4.h>
+#elif defined(STM32F051x8)
+    #include <hal/OwStm32F051x8.h>
 #else
     #error "Unsupported architecture for OneWire Library!"
 #endif

@@ -4,6 +4,7 @@
 /**
  * @file OwAtmega328.cpp
  */
+#if defined(__AVR__)
 #include "hal/OwAtmega328.h"
 
 namespace OW{
@@ -95,3 +96,4 @@ void SerialConsole::serialSend(uint8_t number) {
 }
 
 } //end namespace OW
+#endif

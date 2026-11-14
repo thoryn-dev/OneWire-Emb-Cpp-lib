@@ -13,6 +13,7 @@
  * - use constexpr system clock speed to calculate correct TIMER1 configuration
  */
 
+#if defined(__AVR__)
 #pragma once
 #include <stdint.h>
 // Platform specific librarys
@@ -169,3 +170,4 @@ class SerialConsole {
 };
 
 } // end namespace OW
+#endif
