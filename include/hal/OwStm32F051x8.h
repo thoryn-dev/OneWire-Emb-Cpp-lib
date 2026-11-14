@@ -3,7 +3,7 @@
 
 /**
  * @file OwStm32F051x8.h
- * @brief Implementation of the OwStm32F051x8 hardware abstraction layer
+ * @brief Declarations and interface of the OwStm32F051x8 HAL
  *
  * The library provides an API for the 1-Wire core and abstracts the hardware
  * layer. For this task it provides basic I/O functions and a blocking delay

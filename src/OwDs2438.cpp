@@ -3,6 +3,7 @@
 
 /**
 * @file OwDs2438.cpp
+* @brief Implementation for the DS2438 device
 */
 #include <stdint.h>
 #include "OwCore.h"

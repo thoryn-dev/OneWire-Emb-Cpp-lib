@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (c) 2026 M. Fiedler
 
+/**
+ * @file OwDs2438.h
+ * @brief Declarations and interface for the DS2438 device
+ */
 #pragma once
 #include <stdint.h>
 #include "OwCore.h"

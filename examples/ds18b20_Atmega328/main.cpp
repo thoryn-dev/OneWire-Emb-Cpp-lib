@@ -1,6 +1,5 @@
 /** 
 * @example ds18b20_Atmega328/main.cpp
-* @brief Simple example for DS18B20 communication
 *
 * Here is a simple example demonstrating how to use the 1-Wire library with a
 * single DS18B20 temperature sensor.

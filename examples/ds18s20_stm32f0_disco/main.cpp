@@ -25,7 +25,7 @@
 #include <stdio.h>
 // Platform specific librarys
 #include <stm32f0xx.h>
-// One Wire specific librarys
+// 1-Wire specific librarys
 #include "hal/OwHal.h"
 #include "OwCore.h"
 #include "OwDs18B20.h"

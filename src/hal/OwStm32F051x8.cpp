@@ -2,8 +2,9 @@
 // Copyright (c) 2026 M. Fiedler
 
 /**
- * @file OwStm32F051x8.cpp
- */
+* @file OwStm32F051x8.cpp
+* @brief Implementation for the HAL on platform STM32F051x8
+*/
 #if defined(STM32F051x8)
 #include "hal/OwStm32F051x8.h"
 

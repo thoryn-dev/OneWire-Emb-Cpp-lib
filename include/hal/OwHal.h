@@ -22,5 +22,5 @@
 #elif defined(STM32F051x8)
     #include <hal/OwStm32F051x8.h>
 #else
-    #error "Unsupported architecture for OneWire Library!"
+    #error "Unsupported architecture for 1-Wire Library!"
 #endif

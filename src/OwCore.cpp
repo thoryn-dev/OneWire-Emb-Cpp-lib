@@ -3,8 +3,8 @@
 
 /**
 * @file OwCore.cpp
+* @brief Implementation for the 1-Wire bus protocol
 */
-
 #include <stdint.h>
 #include <stddef.h>
 #include "hal/OwHal.h"

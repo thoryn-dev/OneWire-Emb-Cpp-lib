@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (c) 2026 M. Fiedler
 
+/**
+ * @file OwUtils.h
+ * @brief Declarations and interface for 1-Wire helper functions
+ */
 #pragma once
 #include <stdint.h>
 

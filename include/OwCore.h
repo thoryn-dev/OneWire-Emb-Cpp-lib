@@ -3,7 +3,7 @@
 
  /**
  * @file OwCore.h
- * @brief Implementation for 1-Wire communication
+ * @brief Declarations and interface for the 1-Wire bus protocol
  *
  * This library provides an API for communicating with 1-Wire devices. To this
  * end, it offers an interface (OW::Bus) that handles basic bus communication and

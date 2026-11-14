@@ -21,7 +21,7 @@ A lot of effort went into writing comprehensive **Doxygen documentation** to mak
 
 ## Background
 
-This project actually started just for personal use in a custom OneWire gateway. However, it grew rapidly and has now reached a solid state. It would be a shame to keep this code locked away on my hard drive—especially since modern C++ libraries for 1-Wire are hard to come by. That is why I decided to release it as open source, in the hope that it might be useful to someone else.
+This project actually started just for personal use in a custom 1-Wire gateway. However, it grew rapidly and has now reached a solid state. It would be a shame to keep this code locked away on my hard drive—especially since modern C++ libraries for 1-Wire are hard to come by. That is why I decided to release it as open source, in the hope that it might be useful to someone else.
 
 Work is still in progress. 👨🏻‍💻
 

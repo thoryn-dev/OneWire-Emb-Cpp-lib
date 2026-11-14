@@ -2,8 +2,9 @@
 // Copyright (c) 2026 M. Fiedler
 
 /**
- * @file OwAtmega328.cpp
- */
+* @file OwAtmega328.cpp
+* @brief Implementation for the HAL on platform ATmega 328
+*/
 #if defined(__AVR__)
 #include "hal/OwAtmega328.h"
 

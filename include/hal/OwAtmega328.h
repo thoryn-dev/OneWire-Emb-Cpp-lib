@@ -3,7 +3,7 @@
 
 /**
  * @file OwAtmega328.h
- * @brief Implementation of the ATmega328P hardware abstraction layer
+ * @brief Declarations and interface of the ATmega328P HAL
  *
  * The library provides an API for the 1-Wire core and abstracts the hardware
  * layer. For this task it provides basic I/O functions and a blocking delay

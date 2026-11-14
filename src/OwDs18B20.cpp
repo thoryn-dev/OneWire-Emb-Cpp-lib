@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (c) 2026 M. Fiedler
 
+/**
+* @file OwDs18B20.cpp
+* @brief Implementation for the DS18B20 device
+*/
 #include <stdint.h>
 #include "OwCore.h"
 #include "OwDs18B20.h"
