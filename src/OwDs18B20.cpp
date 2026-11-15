@@ -153,9 +153,8 @@ Ds18B20::ReceiveTemperatureStatus Ds18B20::receiveTemperature(const uint8_t* rom
 	if(calculateCRC8(m_data, 9)){                          // calculate CRC8 from data if successful return 1
 		return ReceiveTemperatureStatus::CrcFailed;
 	}
-	// turn digital temperature in Millidegrees Celsius corresponds -55000 to +125000 m°C
+	// store raw temperature value from DS18B20 in sensor data struct
 	Data.valueTemperatureRaw = (m_data[1] << 8) | m_data[0];
-	Data.valueTemperature = ((static_cast<int32_t>(Data.valueTemperatureRaw) * 1000) / 16);
 	return ReceiveTemperatureStatus::ReceivedSuccessfully;
 }
 

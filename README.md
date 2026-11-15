@@ -70,8 +70,13 @@ Here is a description of how to compile and test the existing examples in the `e
 7. Then click the **arrow icon (Upload)** to upload the program to the microcontroller.
 8. In VS Code, open the **Serial Monitor** (plug icon in the bottom status bar).
 9. Set the baud rate to `19200` baud.
-10. The current temperature values ​​will now appear in the terminal.
-
+10. The current temperature values ​​are now displayed in the terminal as follows:
+```
+Convert: finished!
+Receive: successful!
+Temperature mdegC: 22500
+Temperature degC: 22.50
+```
 ---
 
 ## License

@@ -73,7 +73,6 @@ class Ds18B20 : public Device {
         */
         struct SensorData
         {
-            int32_t valueTemperature = 0;       /**< actual temperaturen in m°C */
             int16_t valueTemperatureRaw = 0;    /**< actual temperaturen in digits */
             uint8_t configResolution = 12;      /**< resolution temperature measurement */
             uint8_t configTemperatureHigh = 0;  /**< temperature upper alarm threshold */
@@ -170,13 +169,14 @@ class Ds18B20 : public Device {
         * 
         * This function receives the digital temperature value from the sensor.
         * 
+        * Upon receipt, the data undergoes a CRC check. If the data is valid,
+        * the temperature is stored in the @c valueTemperatureRaw field of the
+        * SensorData struct. The value range extends from -880 to +2000 digits.
+        * To obtain the physical temperature in different formats,
+        * use Ds18B20::getTemperature().
+        * 
         * @note Before the current temperature can be read, a conversion must
         * be initiated using function Ds18B20::convertTemperature()!
-        * 
-        * Upon receipt, the data undergoes a CRC check. If the data is valid,
-        * the temperature is converted to m°C and stored in the "temperature"
-        * field of the SensorData struct. The temperature
-        * range is -55°C to 125°C.
         * 
         * @param[in] romId  pointer to the target device's ROM ID
         * 
@@ -185,16 +185,81 @@ class Ds18B20 : public Device {
         * @retval Ds18B20::ReceiveTemperatureStatus::ResetFailed
         * @retval Ds18B20::ReceiveTemperatureStatus::PullUpFailed
         * @retval Ds18B20::ReceiveTemperatureStatus::CrcFailed
-        * 
-        * @todo Use a C++ template to output the temperature. Depending on the
-        * required data type, an int32_t value in m°C or a float value in °C
-        * will be output. A decision must be made as to whether the value is
-        * already correctly normalized in the member variables or only the raw
-        * value, which is then converted to int32_t by the function.
-        * Additionally, a compiler warning should be issued when using float
-        * values ​​on low-performance systems.
         */
         ReceiveTemperatureStatus receiveTemperature(const uint8_t* = nullptr);
+        /**
+        * @brief Gives back the temperature value last received
+        *
+        * This general template function returns either the raw value or the
+        * physical temperature of the internally stored temperature value
+        * previously read from the DS18B20 device. There are three possible
+        * return values, which differ in data type, scaling, and precision.
+        * 
+        * @note The maximum resolution also depends on the sensor
+        * configuration. For maximum resolution, the sensor must be configured
+        * to 12 bits. @see Ds18B20::setConfiguration()
+        * 
+        * Possible data types
+        * - <int16_t> - raw value direct from the sensor register -880...+2000
+        * - <int32_t> - calculated temperature value in -55000...+125000 mdegC
+        * - <float>   - calculated temperature value in -55.0...+125.0 degC
+        *
+        * @tparam T Desired return datatype
+        * @return T Temperature value
+        */
+        template <typename T>
+        T getTemperature() const = delete;
 }; // end class Ds18B20
+
+/**
+ * @brief Gives back the temperature value last received (int16_t)
+ *
+ * Explicit template specialization for @c int16_t. It directly outputs the raw
+ * sensor value read from the DS18B20 register. The value has a range of
+ * -880...+2000 which corresponds to a temperature range of -55...+125 degC.
+ * It has a maximum resolution of 0.0625°C.
+ * 
+ * @see Ds18B20::getTemperature()
+ *
+ * @return Temperature value (int16_t)
+ */
+template <>
+inline int16_t Ds18B20::getTemperature<int16_t>() const {
+    return Data.valueTemperatureRaw;
+}
+/**
+ * @brief Gives back the temperature value last received (int32_t)
+ *
+ * Explicit template specialization for @c int32_t. Returns the converted
+ * temperature value of the sensor, with a range of -55,000...+125,000 mdegC.
+ * 
+ * @see Ds18B20::getTemperature()
+ *
+ * @return Temperature value (int32_t)
+ */
+template <>
+inline int32_t Ds18B20::getTemperature<int32_t>() const {
+    // turn raw temperature in Millidegrees Celsius
+    // corresponds -55,000 to +125,000 mdegC
+    return ((static_cast<int32_t>(Data.valueTemperatureRaw) * 1000) / 16);
+}
+/**
+ * @brief Gives back the temperature value last received (float)
+ *
+ * Explicit template specialization for @c float. Returns the converted
+ * temperature value of the sensor, with a range of -55.0...+125.0 degC.
+ * 
+ * @warning Calculating floating point data types can lead to performance
+ * issues and high memory consumption on low-performance and 8-bit
+ * microcontrollers.
+ * 
+ * @see Ds18B20::getTemperature()
+ *
+ * @return Temperature value (float)
+ */
+template <>
+inline float Ds18B20::getTemperature<float>() const {
+    return static_cast<float>(Data.valueTemperatureRaw)/16.0f;
+}
 
 } // end namespace OW

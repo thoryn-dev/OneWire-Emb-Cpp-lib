@@ -22,6 +22,7 @@
 *   the serial terminal
 */
 #include <stdio.h>
+#include <stdlib.h>
 #include <util/delay.h>
 #include "hal/OwHal.h"
 #include "OwCore.h"
@@ -125,6 +126,12 @@ int main(void) {
 		// the terminal.
 	    //-------------------------------------------------------------------------
 
+		// These variables are needed for converting the temperature from float to
+		// string, since direct output via snprintf is not possible on AVR. See the
+		// example of floating-point output below.
+		float temperature = 0;
+		char tempStr[10];
+
 		// Here, the data reception process is initiated and the status is
 		// evaluated. If an error occurs, a corresponding text message is displayed
 		// on the terminal. If the temperature reading is successful, the current
@@ -145,7 +152,27 @@ int main(void) {
 			case Ds18B20::ReceiveTemperatureStatus::ReceivedSuccessfully:
 				snprintf(serialBuffer, sizeof(serialBuffer), "Receive: successful!\n");
 				Ser1.serialSend(serialBuffer);
-				snprintf(serialBuffer, sizeof(serialBuffer), "Temperature mdegC: %ld\n", static_cast<signed long>(myDs18B20.Data.valueTemperature));
+				
+				// get temperature with getTemperature<int32_t>() in mdegC and send it to the terminal
+				snprintf(serialBuffer, sizeof(serialBuffer), "Temperature mdegC: %ld\n", myDs18B20.getTemperature<int32_t>());
+				Ser1.serialSend(serialBuffer);
+
+				//---------------------------------------------------------------------------------
+				// Attention!
+				// 
+				// The following part is intended solely as an example. Calculating floating-point
+				// numbers (float) and double-point numbers on low-performance or 8-bit
+				// microcontrollers results in a high load and high memory consumption.
+				//---------------------------------------------------------------------------------
+
+				// get temperature with getTemperature<float>() in degC and store it in variable temperature
+				temperature = myDs18B20.getTemperature<float>();
+
+				// Converts the float temperature value to a string for output via snprintf
+				dtostrf(static_cast<double>(temperature), 6, 2, tempStr);
+
+				// Sends the float value to the serial terminal
+				snprintf(serialBuffer, sizeof(serialBuffer), "Temperature degC: %s\n", tempStr);
 				Ser1.serialSend(serialBuffer);
 				break;				
 			default:
