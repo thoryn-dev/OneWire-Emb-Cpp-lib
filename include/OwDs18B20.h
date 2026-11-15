@@ -200,9 +200,9 @@ class Ds18B20 : public Device {
         * to 12 bits. @see Ds18B20::setConfiguration()
         * 
         * Possible data types
-        * - <int16_t> - raw value direct from the sensor register -880...+2000
-        * - <int32_t> - calculated temperature value in -55000...+125000 mdegC
-        * - <float>   - calculated temperature value in -55.0...+125.0 degC
+        * - `<int16_t>` - raw value direct from the sensor register -880...+2000
+        * - `<int32_t>` - calculated temperature value in -55000...+125000 mdegC
+        * - `<float>`   - calculated temperature value in -55.0...+125.0 degC
         *
         * @tparam T Desired return datatype
         * @return T Temperature value

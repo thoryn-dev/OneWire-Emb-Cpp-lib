@@ -33,8 +33,7 @@ Thumbs.db
 
 # Documentation
 docs/_build/
-docs/html/
-docs/man/
+docs/doxygen/
 
 # Test artifacts
 test/
