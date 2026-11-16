@@ -16,7 +16,11 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><title
+     id="title1">OneWire embedded C++ Library Logo (dark)</title><sodipodi:namedview
      id="namedview1"
      pagecolor="#ffffff"
      bordercolor="#000000"
@@ -28,7 +32,7 @@
      inkscape:document-units="mm"
      showgrid="true"
      inkscape:zoom="128"
-     inkscape:cx="162.14063"
+     inkscape:cx="162.14844"
      inkscape:cy="11.746094"
      inkscape:window-width="1920"
      inkscape:window-height="1008"
@@ -251,4 +255,6 @@
          id="path2"
          cx="43.590561"
          cy="7.999999"
-         r="1.4736115" /></g></g></svg>
+         r="1.4736115" /></g></g><metadata
+     id="metadata1"><rdf:RDF><cc:Work
+         rdf:about=""><dc:title>OneWire embedded C++ Library Logo (dark)</dc:title><dc:date>2026</dc:date><dc:creator><cc:Agent><dc:title>M. Fiedler (thoryn-dev)</dc:title></cc:Agent></dc:creator><dc:rights><cc:Agent><dc:title>Copyright 2026 M. Fiedler (thoryn-dev). All rights reserved.</dc:title></cc:Agent></dc:rights><dc:description>Official project logo for the OneWire embedded C++ library. Excluded from the Apache 2.0 code license.</dc:description></cc:Work></rdf:RDF></metadata></svg>

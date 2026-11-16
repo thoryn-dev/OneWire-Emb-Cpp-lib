@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-// Copyright (c) 2026 M. Fiedler
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 M. Fiedler (thoryn-dev)
 
 /**
 * @file OwDs18B20.cpp

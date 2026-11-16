@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 M. Fiedler (thoryn-dev)
+
 /** 
 * @example ds2438/main.cpp
 * @brief Simple example for DS2438 communication

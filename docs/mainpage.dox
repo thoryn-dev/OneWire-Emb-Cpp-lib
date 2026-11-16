@@ -1,7 +1,7 @@
 /**
  * @mainpage Main Page
  *
- * # C++ 1-Wire library for embedded systems
+ * # OneWire C++ library for embedded systems
  *
  * This is yet another 1-Wire library among many. :) Born out of a
  * private project, it has been continuously expanded with new features. The
@@ -45,4 +45,9 @@
  * @todo Use `std::array` for array processing to avoid raw pointers. This also
  * allows the array size to be passed to functions simultaneously. This makes
  * the interfaces type-safe and easier to use.
+ *
+ * @section license_sec License & Legal Notices
+ * - **Source Code:** Licensed under the Apache License 2.0. Copyright (c) 2026 M. Fiedler (thoryn-dev).
+ * - **Project Logo:** Copyright (c) 2026 M. Fiedler (thoryn-dev). All rights reserved. Unauthorized use or redistribution is prohibited.
+ * - **Trademarks:** 1-Wire is a registered trademark of Analog Devices, Inc. This project is an independent open-source implementation and is not affiliated with or endorsed by Analog Devices, Inc.
  */

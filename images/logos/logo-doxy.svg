@@ -16,7 +16,11 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><title
+     id="title1">OneWire embedded C++ Library Logo (doxygen)</title><sodipodi:namedview
      id="namedview1"
      pagecolor="#373737"
      bordercolor="#000000"
@@ -173,4 +177,6 @@
              id="path9-4-7-7"
              cx="29.590708"
              cy="15.999998"
-             r="1.25" /></g></g></g></g></svg>
+             r="1.25" /></g></g></g></g><metadata
+     id="metadata1"><rdf:RDF><cc:Work
+         rdf:about=""><dc:title>OneWire embedded C++ Library Logo (doxygen)</dc:title><dc:creator><cc:Agent><dc:title>M. Fiedler (thoryn-dev)</dc:title></cc:Agent></dc:creator><dc:date>2026</dc:date><dc:rights><cc:Agent><dc:title>Copyright 2026 M. Fiedler (thoryn-dev). All rights reserved.</dc:title></cc:Agent></dc:rights><dc:description>Official project logo for the OneWire embedded C++ library. Excluded from the Apache 2.0 code license.</dc:description></cc:Work></rdf:RDF></metadata></svg>

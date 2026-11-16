@@ -1,10 +1,10 @@
 ![Status](https://img.shields.io/badge/Status-Work%20in%20Progress-lightgrey.svg)
-![License](https://img.shields.io/badge/license-GPLv3-blue.svg)
+[![GitHub License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 ![C++ Standard](https://img.shields.io/badge/C%2B%2B-17%2F20-blue.svg)
-![PlatformIO Registry](https://img.shields.io/badge/platformio-supported-orange.svg)
-![Doxygen Documentation](https://img.shields.io/badge/docs-doxygen-brightgreen.svg)
+![PlatformIO Registry](https://img.shields.io/badge/PlatformIO-supported-orange.svg)
+![Doxygen Documentation](https://img.shields.io/badge/Docs-doxygen-brightgreen.svg)
 
-# OneWire MCU C++ Library
+# OneWire embedded C++ Library
 
 <div align="center">
   <picture>
@@ -90,6 +90,14 @@ Temperature degC: 22.50
 ```
 ---
 
-## ⚖️ License
+## ⚖️ License & Copyright
 
-This project is licensed under the **GNU General Public License v3.0 (GPLv3)**.
+### Source Code
+The source code of this project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.
+
+### Project Logo
+The project logos (located in `images/logos/`) are **Copyright © 2026 M. Fiedler (thoryn-dev)**. All rights reserved.  
+You may not copy, modify, distribute, or use the logos without explicit prior written permission, except when referring directly to this project (e.g., in links or articles about this library).
+
+### Trademarks
+1-Wire is a registered trademark of Analog Devices, Inc. This library is an independent open-source implementation and is not affiliated with, endorsed by, or sponsored by Analog Devices, Inc.

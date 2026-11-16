@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 M. Fiedler (thoryn-dev)
+
 /** 
 * @example ds18b20_stm32f0_disco/main.cpp
 * @brief Simple example for DS18B20 communication
