@@ -16,6 +16,12 @@
 
 A clean, object-oriented C++ library for 1-Wire bus communication and devices (like DS18B20 and DS2438), free of Arduino IDE bloat and equipped with a dedicated Hardware Abstraction Layer (HAL).
 
+## Background
+
+I was looking for a good and well-structured C++ library for a 1-Wire gateway I was developing myself. However, I couldn't find the right library for my needs. So this project started, with the nice side effect of deepening my knowledge of C++ on microcontrollers. The project developed rapidly and has now reached a stable beta state. It would be a shame to keep the code locked away on my hard drive. Therefore, I've decided to release it as open source, hoping that it might be useful to others.
+
+Work is still in progress. 👨🏻‍💻
+
 ## Features
 
 - **Modern C++ Architecture:** Clear class hierarchy (`Bus`, `Device`, specific sensors).
@@ -28,13 +34,7 @@ A clean, object-oriented C++ library for 1-Wire bus communication and devices (l
 
 ## 📝 Documentation
 
-A lot of effort went into writing comprehensive **Doxygen documentation** to make the library as easy to use and integrate as possible. Every class, method, and status code is fully documented with usage examples and return values.
-
-## Background
-
-This project actually started just for personal use in a custom 1-Wire gateway. However, it grew rapidly and has now reached a solid state. It would be a shame to keep this code locked away on my hard drive—especially since modern C++ libraries for 1-Wire are hard to come by. That is why I decided to release it as open source, in the hope that it might be useful to someone else.
-
-Work is still in progress. 👨🏻‍💻
+A lot of effort went into writing comprehensive **Doxygen documentation** to make the library as easy to use and integrate as possible. Every class, method, and status code will be fully documented with usage examples and return values.
 
 ---
 
@@ -88,6 +88,15 @@ Receive: successful!
 Temperature mdegC: 22500
 Temperature degC: 22.50
 ```
+
+## 🛣️ Roadmap
+
+There's still a lot to do! The biggest project I'm currently working on is a new feature branch to implement clean, non-blocking communication. This will take some time, though.
+
+In addition, I plan to expand the library with more drivers for additional 1-Wire devices, add further functionality, and try to optimize the library even more, although non-blocking communication is the priority right now.
+
+All future enhancements and milestones will be documented in the [changelog](changelog.md) file.
+
 ---
 
 ## ⚖️ License & Copyright
