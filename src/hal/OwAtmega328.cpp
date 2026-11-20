@@ -75,11 +75,15 @@ SerialConsole::~SerialConsole() {
 }
 
 void SerialConsole::serialSend(const char* string) {
-	while((*string)) {
-		while(!(UCSR0A & 0b00100000)){}
+    if (string == nullptr){
+        return;
+    }
+	while(*string != '\0') {
+		while(!(UCSR0A & (1 << UDRE0))){
+
+        }
 		UDR0 = *string;
-		while(!(UCSR0A & 0b01000000)){}
-		string += 1;
+		string++;
 	}
 }
 
