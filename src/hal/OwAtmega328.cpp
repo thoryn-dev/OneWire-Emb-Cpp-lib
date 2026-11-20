@@ -49,9 +49,8 @@ void Hal::lockInterrupt(){
 }
 
 void Hal::unlockInterrupt(){
-    // restore SREG register and enable Interrupts
+    // restore SREG register
     SREG = m_sregBackup;
-    sei();
 }
 
 void Hal::waitUs(uint16_t delay) {
