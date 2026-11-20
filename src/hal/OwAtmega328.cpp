@@ -84,16 +84,5 @@ void SerialConsole::serialSend(const char* string) {
 	}
 }
 
-void SerialConsole::serialSend(uint8_t number) {
-	//sprintf( String, "%d", number );
-	char String = number + '0';
-	while((String)) {
-		while(!(UCSR0A & 0b00100000)){}
-		UDR0 = String;
-		while(!(UCSR0A & 0b01000000)){}
-		String += 1;
-	}
-}
-
 } //end namespace OW
 #endif

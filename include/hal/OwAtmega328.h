@@ -159,14 +159,6 @@ class SerialConsole {
 		* @param[in] string	The ASCII character to be sent to the interface.
 		*/
 		void serialSend(const char*);
-		/**
-		* @brief Send string to the serial interface
-		* 
-		* The function is used to send an eight-bit value to the serial interface.
-		* 
-		* @param[in] number	The value to be sent to the serial interface
-		*/
-		void serialSend(uint8_t);
 };
 
 } // end namespace OW
