@@ -153,10 +153,13 @@ class SerialConsole {
 		/**
 		* @brief Send string to the serial interface
 		* 
-		* This function is used to send individual ASCII characters to the serial
-		* interface. This allows strings to be transferred to a PC.
+		* This function is used to send a string over the serial interface, for
+        * example, to transmit data to a PC. The function is passed a string
+        * array buffer. The string must be null-terminated. The function
+        * processes the buffer and sends the characters to the serial interface
+        * until the null termination (\0) is detected.
 		* 
-		* @param[in] string	The ASCII character to be sent to the interface.
+		* @param[in] string	String array puffer to be sent to the interface.
 		*/
 		void serialSend(const char*);
 };

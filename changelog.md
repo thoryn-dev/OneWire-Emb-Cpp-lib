@@ -22,7 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com) and this p
 -
 
 ### Removed
--
+- Unused function **serialSend(uint8_t)** is removed from OwAtmega328.h and OwAtmega328.cpp.
 
 ### Fixed
 - 
